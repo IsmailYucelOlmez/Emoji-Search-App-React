@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import EmojiData from './emoji.json'
+
 
 function App() {
+
+  const [search,setSearch]=useState("");
+  const [data,setData]=useState([]);
+ 
+  useEffect(()=>{
+
+    const filteredData=EmojiData.filter(emoji=>emoji.title.toLowerCase().includes(search.toLowerCase()))
+    setData(filteredData);
+
+  },[search])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Emoji Search App</h1>
+       
       </header>
+      <div className='search-input-field'>
+        <input className='search-input' value={search} onChange={(e)=>{ setSearch(e.target.value)}} type='text' placeholder='Search Emoji'></input>
+      </div>
+      <div className='emoji-content'>
+        {
+          data.map(emoji=>
+            <div className='emoji-field'>
+            <p >{emoji.symbol} {emoji.title}</p>
+            </div>
+          )
+        }
+      </div>
+      
+      
+
     </div>
   );
 }
 
 export default App;
+
+//navigator.clipboard.writeText("metin"); kopyalama işlemi yapar
